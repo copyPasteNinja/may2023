@@ -2,9 +2,21 @@
 
 sudo yum update rpm -y; sudo yum update -y 
 
-sudo yum install git -y
+git -v
+status_code=$(echo $?)
+if [ $status_code -eq 0 ]; then
+    echo "Git is already installed!"
+else
+    echo "Installing Git"
+    sudo yum install git -y
+fi
 
-git config --global user.name "Abdul Sharif"
-git config --global user.email "abdugofir00@gmail.com"
+echo "--- To setup your git please enter the following info ---"
+read -p "Enter your name: " name
+read -p "Enter your email: " email
 
-git clone https://github.com/copyPasteNinja/may2023.git /root/may2023
+git config --global user.name $name
+git config --global user.email $email
+
+read -p "Paste your repo link: " repo
+git clone $repo $1 || echo "This is expected"
